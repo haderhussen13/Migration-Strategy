@@ -1,0 +1,38 @@
+Migration Strategy: Docker Swarm to Kubernetes
+1. Feature Mapping: Swarm to Kubernetes
+Docker Swarm Feature Kubernetes Equivalent
+Swarm Service (replicated) Deployment
+Swarm Service (stateful) StatefulSet
+Docker Secrets Kubernetes Secrets
+Docker Configs ConfigMaps
+Overlay Network CNI + NetworkPolicy
+Placement Constraints NodeSelector / Affinity
+Rolling Updates RollingUpdate Strategy
+Named Volumes PersistentVolume + PVC
+2. Migration Approach (Phased Strategy)
+• Phase 1 – Provision Kubernetes cluster and configure ingress, storage, monitoring.
+• Phase 2 – Deploy stateless services (API, frontend).
+• Phase 3 – Migrate stateful services with controlled data synchronization.
+• Phase 4 – DNS cutover and production validation.
+3. Testing Strategy
+• Functional testing of all API endpoints and services.
+• Load testing to validate scaling behavior.
+• Observability validation (logs, metrics, health checks).
+• Blue/Green or Canary deployment validation.
+4. Rollback Plan
+• Use kubectl rollout undo for Kubernetes deployments.
+• Switch DNS back to Swarm cluster if required.
+• Restore database from backup if necessary.
+5. Helm Chart Structure
+myapp-chart/
+ ■■■ Chart.yaml
+ ■■■ values.yaml
+ ■■■ templates/
+ ■■■ deployment.yaml
+ ■■■ service.yaml
+ ■■■ ingress.yaml
+ ■■■ configmap.yaml
+ ■■■ secret.yaml
+ ■■■ hpa.yaml
+ ■■■ pvc.yaml
+auto-scaling (HPA), better ecosystem support, advanced networking, and improved cloud-nat
